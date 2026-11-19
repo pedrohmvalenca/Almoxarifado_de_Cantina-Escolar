@@ -1,3 +1,4 @@
+/** Produto como retornado pela API (GET /api/produtos). */
 export interface Produto {
   id: number;
   nome: string;
@@ -6,6 +7,7 @@ export interface Produto {
   saldo: number;
 }
 
+/** Corpo do POST /api/produtos. O saldo inicial é sempre 0 e definido pela API. */
 export interface NovoProduto {
   nome: string;
   unidade: string;
