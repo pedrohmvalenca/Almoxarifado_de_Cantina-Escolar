@@ -13,6 +13,7 @@ export function mensagemDeErro(err: unknown): string {
   return 'Erro inesperado.';
 }
 
+/** Acesso às rotas de produtos da API (/api/produtos). */
 @Injectable({ providedIn: 'root' })
 export class ProdutoService {
   private http = inject(HttpClient);
