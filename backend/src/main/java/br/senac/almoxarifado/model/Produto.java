@@ -3,6 +3,14 @@ package br.senac.almoxarifado.model;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 
+/**
+ * Item controlado pelo almoxarifado da cantina.
+ * <p>
+ * O {@code saldo} começa em zero e só é alterado por movimentações
+ * (ver {@link br.senac.almoxarifado.repository.ProdutoRepository#baixarSaldo} e
+ * {@link br.senac.almoxarifado.repository.ProdutoRepository#somarSaldo}).
+ * O banco garante nome único e saldo nunca negativo.
+ */
 @Entity
 @Table(name = "produtos")
 public class Produto {
