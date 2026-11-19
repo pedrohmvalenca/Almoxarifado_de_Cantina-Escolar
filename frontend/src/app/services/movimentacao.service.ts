@@ -4,6 +4,10 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Movimentacao, NovaMovimentacao } from '../models/movimentacao.model';
 
+/**
+ * Acesso às movimentações de um produto (/api/produtos/{id}/movimentacoes).
+ * Uma saída maior que o saldo é recusada pela API com 409 e nada é gravado.
+ */
 @Injectable({ providedIn: 'root' })
 export class MovimentacaoService {
   private http = inject(HttpClient);
