@@ -6,6 +6,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * Libera o acesso do frontend às rotas {@code /api/**}.
+ * As origens permitidas vêm de {@code app.cors-origins} (variável {@code CORS_ORIGINS}),
+ * separadas por vírgula.
+ */
 @Configuration
 public class CorsConfig {
 

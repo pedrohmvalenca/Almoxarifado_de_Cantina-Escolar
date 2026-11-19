@@ -99,7 +99,8 @@ class CriteriosAceitacaoTest {
 
     @Test
     void produtoNovoComecaComSaldoZero_eMinimoNegativoRecusado() throws Exception {
-        criar(nomeUnico(), 2).andExpect(jsonPath("$.saldo", is(0.0)));
+        // Compara como número: a API pode serializar o BigDecimal como 0, 0.0 ou 0.000
+        criar(nomeUnico(), 2).andExpect(jsonPath("$.saldo", is(0.0), Double.class));
         criar(nomeUnico(), -1).andExpect(status().isBadRequest());
     }
 

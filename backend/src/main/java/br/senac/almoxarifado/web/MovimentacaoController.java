@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+/** Endpoints REST de movimentações, aninhados no produto. Documentação em {@code docs/api.md}. */
 @RestController
 @RequestMapping("/api/produtos/{produtoId}/movimentacoes")
 public class MovimentacaoController {

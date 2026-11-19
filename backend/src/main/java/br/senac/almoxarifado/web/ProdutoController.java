@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+/** Endpoints REST de produtos. Documentação com exemplos em {@code docs/api.md}. */
 @RestController
 @RequestMapping("/api/produtos")
 public class ProdutoController {

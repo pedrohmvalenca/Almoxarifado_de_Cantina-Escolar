@@ -10,9 +10,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+/**
+ * Traduz exceções em respostas de erro padronizadas, sem expor detalhes internos
+ * da aplicação ou do banco de dados.
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    /** Corpo de toda resposta de erro da API. */
     public record Erro(int status, String mensagem) {}
 
     private ResponseEntity<Erro> resposta(HttpStatus status, String msg) {

@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * Registro imutável de uma entrada ou saída de estoque de um produto.
+ * Forma o histórico auditável que substitui a planilha manual.
+ */
 @Entity
 @Table(name = "movimentacoes")
 public class Movimentacao {

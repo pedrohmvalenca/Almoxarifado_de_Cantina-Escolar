@@ -5,3 +5,15 @@ frontend/.angular/
 .idea/
 .vscode/
 *.log
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# IDEs
+*.iml
+*.swp
+
+# Variáveis de ambiente locais (nunca versionar segredos)
+.env
+.env.*

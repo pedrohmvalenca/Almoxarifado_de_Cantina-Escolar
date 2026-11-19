@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/** Regras de negócio das entradas e saídas de estoque. */
 @Service
 public class MovimentacaoService {
 
@@ -43,6 +44,11 @@ public class MovimentacaoService {
         return movRepo.save(new Movimentacao(produtoId, tipo, qtd, motivo.trim()));
     }
 
+    /**
+     * Histórico do produto, da movimentação mais recente para a mais antiga.
+     *
+     * @throws NaoEncontradoException se o produto não existir
+     */
     @Transactional(readOnly = true)
     public List<Movimentacao> historico(Long produtoId) {
         if (!produtoRepo.existsById(produtoId)) {
