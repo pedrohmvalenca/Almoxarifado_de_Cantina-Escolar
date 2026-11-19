@@ -78,8 +78,83 @@ Para que a aplicação opere corretamente e mantenha a integridade das informaç
 
 | Método | Rota | Descrição | 
 | ----- | ----- | ----- | 
-| `GET` | `/health` | Verifica a integridade da API e a conexão com o banco | 
-| `POST` | `/produtos` | Cadastra um novo produto (saldo inicial = 0) | 
-| `GET` | `/produtos/:id` | Consulta os dados de um produto e seu histórico | 
-| `POST` | `/movimentacoes` | Registra uma entrada ou saída no estoque | 
-| `GET` | `/produtos/abaixo-minimo` | Lista produtos com estoque abaixo do limite configurado | 
+| `POST` | `/api/produtos` | Cadastra um novo produto (saldo inicial = 0) | 
+| `GET` | `/api/produtos` | Lista os produtos ordenados por nome, com saldo atual | 
+| `GET` | `/api/produtos/{id}` | Consulta os dados e o saldo de um produto | 
+| `GET` | `/api/produtos/abaixo-do-minimo` | Lista produtos com saldo abaixo do estoque mínimo | 
+| `POST` | `/api/produtos/{id}/movimentacoes` | Registra uma entrada ou saída no estoque do produto | 
+| `GET` | `/api/produtos/{id}/movimentacoes` | Consulta o histórico de movimentações do produto (mais recentes primeiro) | 
+
+Exemplos de requisição e resposta de cada rota estão em [docs/api.md](docs/api.md).
+
+## 🧱 Tecnologias
+
+* **Backend:** Java 17, Spring Boot 3.3 (Web, Validation, Data JPA), Flyway.
+* **Banco de dados:** PostgreSQL 16 (H2 em memória nos testes automatizados).
+* **Frontend:** Angular 17 (componentes standalone).
+* **CI/CD:** GitHub Actions com deploy no Azure App Service e Azure Static Web Apps.
+
+## 📂 Estrutura do Repositório
+
+```
+backend/    API Spring Boot (controllers, services, repositories, migrations Flyway)
+frontend/   Aplicação Angular
+db/         Scripts SQL de seed e de consultas de evidência
+docs/       Deploy no Azure, divisão da equipe e documentação da API
+.github/    Workflows de build e deploy
+```
+
+## ▶️ Como Executar Localmente
+
+Pré-requisitos: Docker, JDK 17+, Maven 3.9+, Node.js 20+.
+
+1. **Banco de dados** (na raiz do projeto):
+
+   ```bash
+   docker compose up -d
+   ```
+
+2. **Backend** (porta 8080; o Flyway cria as tabelas no primeiro start):
+
+   ```bash
+   cd backend
+   mvn spring-boot:run
+   ```
+
+3. **Dados de exemplo** (opcional, depois que o backend subir):
+
+   ```bash
+   docker exec -i almoxarifado-db psql -U postgres -d almoxarifado < db/seed.sql
+   ```
+
+4. **Frontend** (porta 4200; o proxy encaminha `/api` para o backend):
+
+   ```bash
+   cd frontend
+   npm install
+   npm start
+   ```
+
+   Acesse `http://localhost:4200`.
+
+### Variáveis de ambiente do backend
+
+| Variável | Padrão | Descrição |
+| ----- | ----- | ----- |
+| `DB_URL` | `jdbc:postgresql://localhost:5432/almoxarifado` | URL JDBC do banco |
+| `DB_USER` | `postgres` | Usuário do banco |
+| `DB_PASSWORD` | `postgres` | Senha do banco |
+| `CORS_ORIGINS` | `http://localhost:4200` | Origens liberadas no CORS (separadas por vírgula) |
+| `PORT` | `8080` | Porta HTTP da API |
+
+## ✅ Testes Automatizados
+
+Os testes do backend sobem a aplicação com banco H2 em memória (não precisam do Docker):
+
+```bash
+cd backend
+mvn test
+```
+
+* `CriteriosAceitacaoTest`: critérios de aceitação CA1 a CA5.
+* `ValidacoesTest`: validações de entrada e formato padronizado das respostas de erro.
