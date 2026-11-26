@@ -6,9 +6,9 @@ import { ProdutoListaComponent } from './pages/produto-lista.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'produtos' },
-  { path: 'produtos', component: ProdutoListaComponent },
-  { path: 'produtos/novo', component: ProdutoFormComponent },
-  { path: 'produtos/abaixo-do-minimo', component: AbaixoMinimoComponent },
-  { path: 'produtos/:id', component: ProdutoDetalheComponent },
+  { path: 'produtos', component: ProdutoListaComponent, title: 'Produtos | Almoxarifado' },
+  { path: 'produtos/novo', component: ProdutoFormComponent, title: 'Novo produto | Almoxarifado' },
+  { path: 'produtos/abaixo-do-minimo', component: AbaixoMinimoComponent, title: 'Estoque baixo | Almoxarifado' },
+  { path: 'produtos/:id', component: ProdutoDetalheComponent, title: 'Produto | Almoxarifado' },
   { path: '**', redirectTo: 'produtos' },
 ];
