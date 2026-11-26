@@ -54,14 +54,16 @@ import { ProdutoService, mensagemDeErro } from '../services/produto.service';
           <input id="motivo" name="motivo" [(ngModel)]="motivo" required maxlength="200"
                  placeholder="Ex.: compra no mercado, almoço de terça" />
         </div>
-        <button type="submit" [disabled]="f.invalid || !quantidade || quantidade <= 0 || enviando">
+        <button type="submit" [disabled]="f.invalid || !quantidade || quantidade <= 0 || !motivo.trim() || enviando">
           Registrar {{ tipo === 'entrada' ? 'entrada' : 'saída' }}
         </button>
       </form>
 
       <div class="panel">
         <h2>Histórico</h2>
-        @if (historico.length === 0) {
+        @if (erroHistorico) {
+          <p class="msg erro">{{ erroHistorico }}</p>
+        } @else if (historico.length === 0) {
           <p class="vazio">Nenhuma movimentação registrada ainda.</p>
         } @else {
           <table>
@@ -100,6 +102,7 @@ export class ProdutoDetalheComponent implements OnInit {
   erro = '';
   sucesso = '';
   erroCarga = '';
+  erroHistorico = '';
   enviando = false;
 
   ngOnInit(): void {
@@ -113,18 +116,19 @@ export class ProdutoDetalheComponent implements OnInit {
       error: (e) => (this.erroCarga = mensagemDeErro(e)),
     });
     this.movs.historico(this.id).subscribe({
-      next: (h) => (this.historico = h),
-      error: () => (this.historico = []),
+      next: (h) => { this.historico = h; this.erroHistorico = ''; },
+      error: (e) => { this.historico = []; this.erroHistorico = mensagemDeErro(e); },
     });
   }
 
   registrar(): void {
-    if (!this.quantidade || this.quantidade <= 0) return;
+    const motivo = this.motivo.trim();
+    if (!this.quantidade || this.quantidade <= 0 || !motivo) return;
     this.erro = '';
     this.sucesso = '';
     this.enviando = true;
 
-    this.movs.registrar(this.id, { tipo: this.tipo, quantidade: this.quantidade, motivo: this.motivo }).subscribe({
+    this.movs.registrar(this.id, { tipo: this.tipo, quantidade: this.quantidade, motivo }).subscribe({
       next: () => {
         this.sucesso = this.tipo === 'entrada' ? 'Entrada registrada.' : 'Saída registrada.';
         this.quantidade = null;

@@ -3,6 +3,7 @@ package br.senac.almoxarifado.web.dto;
 import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 
+/** Corpo do POST /api/produtos/{id}/movimentacoes. A quantidade deve ser maior que zero. */
 public record MovimentacaoRequest(
         @NotBlank @Pattern(regexp = "entrada|saida", message = "deve ser entrada ou saida") String tipo,
         @NotNull @DecimalMin(value = "0", inclusive = false, message = "deve ser maior que zero")
