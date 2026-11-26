@@ -16,6 +16,7 @@ import { ProdutoService, mensagemDeErro } from '../services/produto.service';
       } @else if (produtos.length === 0) {
         <p class="vazio">Nenhum produto abaixo do mínimo. Tudo em ordem.</p>
       } @else {
+        <p class="muted">{{ produtos.length }} {{ produtos.length === 1 ? 'produto precisa' : 'produtos precisam' }} de reposição.</p>
         <table>
           <thead>
             <tr><th>Produto</th><th class="num">Saldo</th><th class="num">Mínimo</th></tr>
