@@ -18,6 +18,7 @@ Toda resposta de erro tem o mesmo formato, sem expor detalhes internos:
 | `400 Bad Request` | Campo inválido ou ausente, JSON malformado, id não numérico na URL |
 | `404 Not Found` | Produto não encontrado |
 | `409 Conflict` | Nome de produto já cadastrado, saldo insuficiente para a saída ou violação de regra do banco |
+| `500 Internal Server Error` | Erro inesperado no servidor. A mensagem é sempre genérica e o detalhe fica só no log |
 
 Nos erros de validação (`400`), `mensagem` lista os campos com problema no formato
 `campo: motivo; campo: motivo`.
