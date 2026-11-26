@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Unidade } from '../models/produto.model';
 import { ProdutoService, mensagemDeErro } from '../services/produto.service';
 
 @Component({
@@ -33,7 +34,7 @@ import { ProdutoService, mensagemDeErro } from '../services/produto.service';
       </div>
 
       <p class="muted">O saldo inicial é 0. Registre uma entrada depois de cadastrar.</p>
-      <button type="submit" [disabled]="f.invalid || enviando">Cadastrar produto</button>
+      <button type="submit" [disabled]="f.invalid || !nome.trim() || enviando">Cadastrar produto</button>
     </form>
   `,
 })
@@ -42,15 +43,17 @@ export class ProdutoFormComponent {
   private router = inject(Router);
 
   nome = '';
-  unidade = 'un';
+  unidade: Unidade = 'un';
   estoqueMinimo = 0;
   erro = '';
   enviando = false;
 
   salvar(): void {
+    const nome = this.nome.trim();
+    if (!nome) return;
     this.erro = '';
     this.enviando = true;
-    this.service.criar({ nome: this.nome, unidade: this.unidade, estoqueMinimo: this.estoqueMinimo }).subscribe({
+    this.service.criar({ nome, unidade: this.unidade, estoqueMinimo: this.estoqueMinimo }).subscribe({
       next: (p) => this.router.navigate(['/produtos', p.id]),
       error: (e) => {
         // 409 = nome já existe (CA5); 400 = validação
